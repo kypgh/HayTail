@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Input, Card, ProductCard, Modal, Dropdown, Navigation } from '@/components'
+import { Button, Input, Card, ProductCard, Modal, Dropdown, Navigation, SEO } from '@/components'
 
 export default function Home() {
   const [searchValue, setSearchValue] = useState('')
@@ -22,7 +22,13 @@ export default function Home() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900">
+    <>
+      <SEO
+        title="Component Demo - UI System Showcase"
+        description="Interactive demo of our component system featuring buttons, cards, modals, and more gaming-focused UI elements."
+        noIndex={true}
+      />
+      <div className="min-h-screen bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900">
       {/* Navigation */}
       <Navigation 
         items={navItems}
@@ -187,6 +193,7 @@ export default function Home() {
           </Modal>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   )
 }

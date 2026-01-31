@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Layout } from '@/components'
+import { Button, Layout, SEO } from '@/components'
 
 // Mock product data
 const mockProducts = [
@@ -86,6 +86,84 @@ export default function StorePage() {
 
   const tabs = ['Latest', 'Popular', 'On Sale']
 
+  // Product structured data
+  const productSchemas = mockProducts.map(product => ({
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": product.title,
+    "description": product.description,
+    "category": "Gaming Items",
+    "brand": {
+      "@type": "Brand",
+      "name": "HytaleWorld"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": product.price.replace('$', ''),
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "seller": {
+        "@type": "Organization",
+        "name": "HytaleWorld"
+      }
+    },
+    "additionalProperty": [
+      {
+        "@type": "PropertyValue",
+        "name": "Rarity",
+        "value": product.rarity
+      },
+      {
+        "@type": "PropertyValue", 
+        "name": "Game",
+        "value": "Hytale"
+      }
+    ]
+  }))
+
+  // Store page structured data
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://hytaleworld.net"
+  const paymentMethods = ["Credit Card", "PayPal", "Stripe"]
+  
+  const storeSchema = {
+    "@context": "https://schema.org",
+    "@type": "Store",
+    "name": "HytaleWorld Store",
+    "description": "Premium Hytale server items, ranks, and perks",
+    "url": `${siteUrl}/store`,
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "HytaleWorld"
+    },
+    "paymentAccepted": paymentMethods,
+    "currenciesAccepted": "USD"
+  }
+
+  // ItemList schema for product collection
+  const itemListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Hytale Server Store Items",
+    "description": "Premium ranks, items, and perks for HytaleWorld server",
+    "numberOfItems": mockProducts.length,
+    "itemListElement": mockProducts.map((product, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": {
+        "@type": "Product",
+        "name": product.title,
+        "description": product.description,
+        "offers": {
+          "@type": "Offer",
+          "price": product.price.replace('$', ''),
+          "priceCurrency": "USD"
+        }
+      }
+    }))
+  }
+
+  const allSchemas = [storeSchema, itemListSchema, ...productSchemas]
+
   const ProductCard = ({ product }: { product: typeof mockProducts[0] }) => {
     const rarityColors = {
       rare: { 
@@ -141,7 +219,16 @@ export default function StorePage() {
   }
 
   return (
-    <Layout activeNavItem="Store">
+    <>
+      <SEO
+        title="Hytale Server Store - Premium Ranks, Items & Perks"
+        description="Buy premium Hytale server ranks, exclusive items, and VIP perks. Grand Champion rank, Dragon Cape, Ancient Keys, and more. Secure Stripe checkout with instant delivery."
+        keywords="hytale server store, hytale ranks, hytale items, hytale perks, grand champion rank, hytale vip, gaming store, server store"
+        canonicalUrl="/store"
+        ogType="website"
+        structuredData={allSchemas}
+      />
+      <Layout activeNavItem="Store">
       <div className="flex pt-16">
         {/* Main Content */}
         <div className="flex-1 px-4 sm:px-6 lg:px-8 py-8">
@@ -244,5 +331,6 @@ export default function StorePage() {
         </div>
       </div>
     </Layout>
+    </>
   )
 }

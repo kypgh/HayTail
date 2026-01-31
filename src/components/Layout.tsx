@@ -41,7 +41,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeNavItem = 'Home' }) => 
       <div 
         className="fixed inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: 'url(/images/bg.png)',
+          backgroundImage: `url(/images/bg.png)`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
           filter: 'brightness(0.4)'
@@ -116,9 +116,9 @@ const Layout: React.FC<LayoutProps> = ({ children, activeNavItem = 'Home' }) => 
               </div>
               
               <div className="flex space-x-6 text-sm text-gray-400">
-                <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-                <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-                <a href="#" className="hover:text-white transition-colors">Support</a>
+                <a href="/terms" className="hover:text-white transition-colors">Terms of Service</a>
+                <a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a>
+                <a href="/support" className="hover:text-white transition-colors">Support</a>
               </div>
               
               <div className="flex space-x-4 mt-4 md:mt-0">
