@@ -9,7 +9,8 @@ const rankData = [
     tagline: "Ultimate Access",
     description: "The complete server experience with unlimited homes and access to ALL available commands and features.",
     price: "$49.99",
-    image: "⭐",
+    emoji: "⭐",
+    bannerImage: "/images/vip.png",
     rarity: "legendary" as const,
     badge: "MOST POPULAR",
     features: [
@@ -26,7 +27,8 @@ const rankData = [
     tagline: "Creative Architect",
     description: "Essential tools for serious builders and architects. Focus on construction with creative abilities.",
     price: "$29.99",
-    image: "🔨",
+    emoji: "🔨",
+    bannerImage: "/images/builder.png",
     rarity: "gold" as const,
     badge: null,
     features: [
@@ -42,7 +44,8 @@ const rankData = [
     tagline: "Leap Master",
     description: "The ultimate teleportation specialist with enhanced jumping abilities and location memory.",
     price: "$24.99",
-    image: "🐸",
+    emoji: "🐸",
+    bannerImage: "/images/frog.png",
     rarity: "rare" as const,
     badge: null,
     features: [
@@ -59,7 +62,8 @@ const rankData = [
     tagline: "Master of the Wild",
     description: "Perfect for adventurers who love exploring new territories. Get enhanced mobility and survival tools to conquer the wilderness.",
     price: "$19.99",
-    image: "🧭",
+    emoji: "🧭",
+    bannerImage: "/images/explorer.png",
     rarity: "rare" as const,
     badge: null,
     features: [
@@ -77,7 +81,8 @@ const rankData = [
     tagline: "Shadow Walker",
     description: "Become the ultimate stealth operative with invisibility and tracking abilities. Hunt your targets unseen.",
     price: "$17.99",
-    image: "🗡️",
+    emoji: "🗡️",
+    bannerImage: "/images/assassin.png",
     rarity: "rare" as const,
     badge: null,
     features: [
@@ -95,7 +100,8 @@ const rankData = [
     tagline: "Vertical Navigator",
     description: "Master of vertical movement and positioning. Perfect for builders and treasure hunters who need precise navigation.",
     price: "$14.99",
-    image: "⛏️",
+    emoji: "⛏️",
+    bannerImage: "/images/scavenger.png",
     rarity: "gold" as const,
     badge: null,
     features: [
@@ -112,7 +118,8 @@ const rankData = [
     tagline: "Supporter Perks",
     description: "Thank you for supporting our server! Enjoy premium teleportation features as our appreciation.",
     price: "$9.99",
-    image: "💝",
+    emoji: "💝",
+    bannerImage: "/images/donor.png",
     rarity: "gold" as const,
     badge: null,
     features: [
@@ -248,23 +255,17 @@ export default function StorePage() {
     return (
       <div className={`bg-dark-800 rounded-lg overflow-hidden border-2 ${rarityColors[rank.rarity].border} hover:shadow-lg transition-all duration-300 flex flex-col h-full`}>
         <div className={`h-32 bg-gradient-to-br ${rarityColors[rank.rarity].bg} relative overflow-hidden`}>
-          {/* Background pattern - more visible */}
-          <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-transparent to-white/30"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(255,255,255,0.3),transparent_60%)]"></div>
+          {/* Background image */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: `url(${rank.bannerImage})` }}
+          />
           
-          {/* Diagonal lines pattern */}
-          <div className="absolute inset-0 opacity-10" style={{
-            backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 10px, currentColor 10px, currentColor 12px)`,
-          }}></div>
-          
-          {/* Content */}
-          <div className="relative h-full flex items-center justify-center">
-            <div className="text-4xl drop-shadow-2xl filter brightness-110">{rank.image}</div>
-          </div>
+          {/* Overlay for better text readability */}
+          <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-transparent to-black/20"></div>
           
           {rank.badge && (
-            <div className="absolute top-2 left-2 bg-gold-500 text-dark-900 px-2 py-1 rounded text-xs font-bold uppercase shadow-xl backdrop-blur-sm">
+            <div className="absolute top-2 left-2 bg-gold-500 text-dark-900 px-2 py-1 rounded text-xs font-bold uppercase shadow-xl backdrop-blur-sm z-10">
               {rank.badge}
             </div>
           )}
@@ -272,7 +273,10 @@ export default function StorePage() {
         
         <div className="p-6 flex flex-col flex-grow">
           <div className="mb-4">
-            <h3 className="text-xl font-bold text-white mb-1">{rank.title}</h3>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-2xl">{rank.emoji}</span>
+              <h3 className="text-xl font-bold text-white">{rank.title}</h3>
+            </div>
             <p className={`text-sm font-medium mb-2 ${rarityColors[rank.rarity].text} uppercase tracking-wide`}>
               {rank.tagline}
             </p>
