@@ -1,7 +1,18 @@
-import { Layout, SEO } from '@/components'
+import { useState } from 'react'
+import { Layout, SEO, LoginModal } from '@/components'
 
-export default function MapPage() {
+export default function MapPage({ user, setUser }: { user: { inGameName: string } | null, setUser: (user: { inGameName: string } | null) => void }) {
   const mapUrl = 'http://map.haytail.com:10310/'
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+
+  const handleLogin = (username: string) => {
+    setUser({ inGameName: username })
+  }
+
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' })
+    setUser(null)
+  }
 
   return (
     <>
@@ -10,7 +21,17 @@ export default function MapPage() {
         description="Explore the server map and see all the locations"
         canonicalUrl="/map"
       />
-      <Layout activeNavItem="Map">
+      <Layout 
+        activeNavItem="Map"
+        userName={user?.inGameName}
+        onSignIn={() => setIsLoginModalOpen(true)}
+        onSignOut={handleLogout}
+      >
+        <LoginModal 
+          isOpen={isLoginModalOpen}
+          onClose={() => setIsLoginModalOpen(false)}
+          onSuccess={handleLogin}
+        />
         <div className="min-h-screen pt-16">
           <div className="max-w-7xl mx-auto px-4 py-8">
             <h1 className="text-4xl font-bold text-white mb-6">Server Map</h1>

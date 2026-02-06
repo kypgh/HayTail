@@ -1,9 +1,24 @@
 import { useState } from 'react'
-import { Button, Card, Layout, SEO } from '@/components'
+import { Button, Card, Layout, SEO, LoginModal } from '@/components'
 
-export default function HomePage() {
+interface HomePageProps {
+  user: { inGameName: string } | null
+  setUser: (user: { inGameName: string } | null) => void
+}
+
+export default function HomePage({ user, setUser }: HomePageProps) {
   const [serverStatus] = useState('ONLINE')
   const [playerCount] = useState(1284)
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+
+  const handleLogin = (username: string) => {
+    setUser({ inGameName: username })
+  }
+
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' })
+    setUser(null)
+  }
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://hytaleworld.net"
   const siteName = process.env.NEXT_PUBLIC_SITE_NAME || "HytaleWorld - Best Hytale Server"
@@ -155,7 +170,17 @@ export default function HomePage() {
         ogType="website"
         structuredData={structuredData}
       />
-      <Layout activeNavItem="Home">
+      <Layout 
+        activeNavItem="Home"
+        userName={user?.inGameName}
+        onSignIn={() => setIsLoginModalOpen(true)}
+        onSignOut={handleLogout}
+      >
+      <LoginModal 
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        onSuccess={handleLogin}
+      />
       {/* Hero Section */}
       <div className="flex flex-col items-center justify-center min-h-screen px-4 text-center pt-16">
         {/* Logo Full */}

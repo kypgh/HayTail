@@ -14,6 +14,7 @@ interface NavigationProps {
   cartCount?: number
   onCartClick?: () => void
   onSignIn?: () => void
+  onSignOut?: () => void
   userAvatar?: string
   userName?: string
 }
@@ -24,6 +25,7 @@ const Navigation: React.FC<NavigationProps> = ({
   cartCount = 0,
   onCartClick,
   onSignIn,
+  onSignOut,
   userAvatar,
   userName
 }) => {
@@ -84,15 +86,23 @@ const Navigation: React.FC<NavigationProps> = ({
 
             {/* User */}
             {userName ? (
-              <div className="flex items-center space-x-2">
-                {userAvatar ? (
-                  <img src={userAvatar} alt={userName} className="h-8 w-8 rounded-full" />
-                ) : (
-                  <div className="h-8 w-8 bg-primary-500 rounded-full flex items-center justify-center">
-                    <UserIcon className="h-5 w-5 text-white" />
-                  </div>
-                )}
-                <span className="text-white text-sm">{userName}</span>
+              <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-2">
+                  {userAvatar ? (
+                    <img src={userAvatar} alt={userName} className="h-8 w-8 rounded-full" />
+                  ) : (
+                    <div className="h-8 w-8 bg-primary-500 rounded-full flex items-center justify-center">
+                      <UserIcon className="h-5 w-5 text-white" />
+                    </div>
+                  )}
+                  <span className="text-white text-sm">{userName}</span>
+                </div>
+                <button
+                  onClick={onSignOut}
+                  className="text-sm text-gray-400 hover:text-white transition-colors duration-200"
+                >
+                  Sign Out
+                </button>
               </div>
             ) : (
               <Button variant="primary" size="sm" onClick={onSignIn}>
@@ -148,15 +158,20 @@ const Navigation: React.FC<NavigationProps> = ({
               </div>
               <div className="mt-3 px-3">
                 {userName ? (
-                  <div className="flex items-center space-x-2">
-                    {userAvatar ? (
-                      <img src={userAvatar} alt={userName} className="h-8 w-8 rounded-full" />
-                    ) : (
-                      <div className="h-8 w-8 bg-primary-500 rounded-full flex items-center justify-center">
-                        <UserIcon className="h-5 w-5 text-white" />
-                      </div>
-                    )}
-                    <span className="text-white">{userName}</span>
+                  <div className="space-y-2">
+                    <div className="flex items-center space-x-2">
+                      {userAvatar ? (
+                        <img src={userAvatar} alt={userName} className="h-8 w-8 rounded-full" />
+                      ) : (
+                        <div className="h-8 w-8 bg-primary-500 rounded-full flex items-center justify-center">
+                          <UserIcon className="h-5 w-5 text-white" />
+                        </div>
+                      )}
+                      <span className="text-white">{userName}</span>
+                    </div>
+                    <Button variant="secondary" size="sm" onClick={onSignOut} className="w-full">
+                      Sign Out
+                    </Button>
                   </div>
                 ) : (
                   <Button variant="primary" size="sm" onClick={onSignIn} className="w-full">

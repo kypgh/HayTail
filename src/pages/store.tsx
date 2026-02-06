@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Layout, SEO } from '@/components'
+import { Button, Layout, SEO, LoginModal } from '@/components'
 
 // Rank data
 const rankData = [
@@ -147,8 +147,18 @@ const mockCartItems = [
   }
 ]
 
-export default function StorePage() {
+export default function StorePage({ user, setUser }: { user: { inGameName: string } | null, setUser: (user: { inGameName: string } | null) => void }) {
   const [activeTab, setActiveTab] = useState('Latest')
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+
+  const handleLogin = (username: string) => {
+    setUser({ inGameName: username })
+  }
+
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' })
+    setUser(null)
+  }
 
   const tabs = ['Latest', 'Popular', 'On Sale']
 
@@ -328,7 +338,17 @@ export default function StorePage() {
         ogType="website"
         structuredData={allSchemas}
       />
-      <Layout activeNavItem="Store">
+      <Layout 
+        activeNavItem="Store"
+        userName={user?.inGameName}
+        onSignIn={() => setIsLoginModalOpen(true)}
+        onSignOut={handleLogout}
+      >
+      <LoginModal 
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        onSuccess={handleLogin}
+      />
       <div className="flex pt-16">
         {/* Main Content */}
         <div className="flex-1 px-4 sm:px-6 lg:px-8 py-8">
