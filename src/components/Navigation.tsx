@@ -36,13 +36,15 @@ const Navigation: React.FC<NavigationProps> = ({
           {/* Logo */}
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              {logo || (
-                <img 
-                  src="/images/logo.png?v=2" 
-                  alt="Logo" 
-                  className="h-8 w-auto"
-                />
-              )}
+              <a href="/">
+                {logo || (
+                  <img 
+                    src="/images/logo.png?v=2" 
+                    alt="Logo" 
+                    className="h-8 w-auto cursor-pointer hover:opacity-80 transition-opacity"
+                  />
+                )}
+              </a>
             </div>
           </div>
 
