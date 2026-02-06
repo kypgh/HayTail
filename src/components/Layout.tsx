@@ -10,9 +10,18 @@ interface NavItem {
 interface LayoutProps {
   children: React.ReactNode
   activeNavItem?: string
+  userName?: string
+  onSignIn?: () => void
+  onSignOut?: () => void
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, activeNavItem = 'Home' }) => {
+const Layout: React.FC<LayoutProps> = ({ 
+  children, 
+  activeNavItem = 'Home',
+  userName,
+  onSignIn,
+  onSignOut
+}) => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
@@ -101,9 +110,33 @@ const Layout: React.FC<LayoutProps> = ({ children, activeNavItem = 'Home' }) => 
 
               {/* Right side - Sign In */}
               <div className="hidden md:flex items-center space-x-4">
-                <Button variant="primary" size="sm" onClick={() => console.log('Sign in clicked')}>
-                  Sign In
-                </Button>
+                {userName ? (
+                  <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-2">
+                      <div className="h-8 w-8 bg-primary-500 rounded-full flex items-center justify-center">
+                        <span className="text-white text-sm font-semibold">
+                          {userName.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                      <span className="text-white text-sm">{userName}</span>
+                    </div>
+                    <button
+                      onClick={onSignOut}
+                      className="text-sm text-gray-400 hover:text-white transition-colors duration-200"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <Button variant="secondary" size="sm" onClick={() => window.location.href = '/register'}>
+                      Register
+                    </Button>
+                    <Button variant="primary" size="sm" onClick={onSignIn}>
+                      Sign In
+                    </Button>
+                  </>
+                )}
               </div>
 
               {/* Mobile menu button */}
@@ -150,14 +183,45 @@ const Layout: React.FC<LayoutProps> = ({ children, activeNavItem = 'Home' }) => 
                 {/* Mobile Sign In */}
                 <div className="pt-4 pb-3 border-t border-dark-600">
                   <div className="px-3">
-                    <Button 
-                      variant="primary" 
-                      size="sm" 
-                      onClick={() => console.log('Sign in clicked')} 
-                      className="w-full"
-                    >
-                      Sign In
-                    </Button>
+                    {userName ? (
+                      <div className="space-y-2">
+                        <div className="flex items-center space-x-2 mb-3">
+                          <div className="h-8 w-8 bg-primary-500 rounded-full flex items-center justify-center">
+                            <span className="text-white text-sm font-semibold">
+                              {userName.charAt(0).toUpperCase()}
+                            </span>
+                          </div>
+                          <span className="text-white">{userName}</span>
+                        </div>
+                        <Button 
+                          variant="secondary" 
+                          size="sm" 
+                          onClick={onSignOut} 
+                          className="w-full"
+                        >
+                          Sign Out
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="space-y-2">
+                        <Button 
+                          variant="secondary" 
+                          size="sm" 
+                          onClick={() => window.location.href = '/register'} 
+                          className="w-full"
+                        >
+                          Register
+                        </Button>
+                        <Button 
+                          variant="primary" 
+                          size="sm" 
+                          onClick={onSignIn} 
+                          className="w-full"
+                        >
+                          Sign In
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
