@@ -1,7 +1,7 @@
-import { Layout, SEO } from '@/components'
+import { Layout, SEO } from "@/components";
 
 export default function MapPage() {
-  const mapUrl = 'http://map.haytail.com:10310/'
+  const mapUrl = "/api/map";
 
   return (
     <>
@@ -15,11 +15,15 @@ export default function MapPage() {
           <div className="max-w-7xl mx-auto px-4 py-8">
             <h1 className="text-4xl font-bold text-white mb-6">Server Map</h1>
             <p className="text-gray-300 mb-6">
-              Explore the server world in real-time. This is an embedded view of the map.
+              Explore the server world in real-time. This is an embedded view of
+              the map.
             </p>
-            
+
             {/* Iframe Container */}
-            <div className="relative w-full bg-dark-800 rounded-lg overflow-hidden border border-dark-600" style={{ height: 'calc(100vh - 250px)' }}>
+            <div
+              className="relative w-full bg-dark-800 rounded-lg overflow-hidden border border-dark-600"
+              style={{ height: "calc(100vh - 250px)" }}
+            >
               <iframe
                 src={mapUrl}
                 className="w-full h-full"
@@ -28,24 +32,24 @@ export default function MapPage() {
                 allowFullScreen
               />
             </div>
-            
+
             <div className="mt-4 text-sm text-gray-400">
               <p>
-                Having issues with the embedded map? Try the{' '}
-                <a 
-                  href={mapUrl} 
-                  target="_blank" 
+                Having issues with the embedded map? Try the{" "}
+                <a
+                  href={mapUrl}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary-400 hover:text-primary-300 underline"
                 >
                   external map link
-                </a>
-                {' '}instead.
+                </a>{" "}
+                instead.
               </p>
             </div>
           </div>
         </div>
       </Layout>
     </>
-  )
+  );
 }
