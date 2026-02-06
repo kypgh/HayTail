@@ -4,16 +4,27 @@ let pool: mysql.Pool | null = null
 
 export function getPool() {
   if (!pool) {
-    pool = mysql.createPool({
-      host: process.env.DB_HOST,
+    const config = {
+      host: process.env.DB_HOST || 'ms3698.gamedata.io',
       port: parseInt(process.env.DB_PORT || '3306'),
-      user: process.env.DB_USER,
+      user: process.env.DB_USER || 'ni12612013_1_DB',
       password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
+      database: process.env.DB_NAME || 'ni12612013_1_DB',
       waitForConnections: true,
       connectionLimit: 10,
       queueLimit: 0
+    }
+    
+    // Log config (without password) for debugging
+    console.log('MySQL Config:', {
+      host: config.host,
+      port: config.port,
+      user: config.user,
+      database: config.database,
+      hasPassword: !!config.password
     })
+    
+    pool = mysql.createPool(config)
   }
   return pool
 }

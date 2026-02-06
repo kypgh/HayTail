@@ -128,9 +128,14 @@ const Layout: React.FC<LayoutProps> = ({
                     </button>
                   </div>
                 ) : (
-                  <Button variant="primary" size="sm" onClick={onSignIn}>
-                    Sign In
-                  </Button>
+                  <>
+                    <Button variant="secondary" size="sm" onClick={() => window.location.href = '/register'}>
+                      Register
+                    </Button>
+                    <Button variant="primary" size="sm" onClick={onSignIn}>
+                      Sign In
+                    </Button>
+                  </>
                 )}
               </div>
 
@@ -198,14 +203,24 @@ const Layout: React.FC<LayoutProps> = ({
                         </Button>
                       </div>
                     ) : (
-                      <Button 
-                        variant="primary" 
-                        size="sm" 
-                        onClick={onSignIn} 
-                        className="w-full"
-                      >
-                        Sign In
-                      </Button>
+                      <div className="space-y-2">
+                        <Button 
+                          variant="secondary" 
+                          size="sm" 
+                          onClick={() => window.location.href = '/register'} 
+                          className="w-full"
+                        >
+                          Register
+                        </Button>
+                        <Button 
+                          variant="primary" 
+                          size="sm" 
+                          onClick={onSignIn} 
+                          className="w-full"
+                        >
+                          Sign In
+                        </Button>
+                      </div>
                     )}
                   </div>
                 </div>
